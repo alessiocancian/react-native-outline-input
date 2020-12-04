@@ -89,7 +89,7 @@ const OutlineInput = ({
   disabled = false,
 }: PropTypes) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  const lineHeightValue: number = fontSize + 2;
+  const lineHeightValue: number = fontSize + 5;
   const scaledLineHeight = lineHeightValue * 0.8
   const initialTopValue: number = (height - lineHeightValue) / 2;
   const labelPositionEmptyValue: number = 0;
@@ -163,7 +163,7 @@ const OutlineInput = ({
       {
         fontSize,
         fontFamily, 
-        zIndex: 10,
+				zIndex: 10,
       },
       customLabelStyle
     ],
@@ -207,10 +207,12 @@ const OutlineInput = ({
 				zIndex: zIndexRef,
 				height,
 				scaleX: scaleRef,
-				scaleY: scaleRef
+				scaleY: scaleRef,
 			}}>
-        <Animated.Text {...animatedTextProps}>{label}</Animated.Text>
-        <View style={{ backgroundColor, height: 2, top: scaledLineHeight/2 - 1, zIndex: 0 }} />
+				<View style={{ top: initialTopValue, position: "relative" }}>
+        	<Animated.Text {...animatedTextProps}>{label}</Animated.Text>
+        	<View style={{ position: "absolute", width: "100%", backgroundColor, height: 3, top: lineHeightValue/2-1, zIndex: 0 }} />
+				</View>
       </Animated.View>
       <TextInput {...inputProps} {...textInputProps} editable={!disabled} />
     </View>
@@ -228,7 +230,6 @@ const LabelStyle = ({
   color: isFocused ? activeLabelColor : passiveLabelColor,
   paddingRight: 5,
   paddingLeft: 5,
-  top: initialTopValue,
 });
 
 const styles = StyleSheet.create({
