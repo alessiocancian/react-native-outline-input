@@ -9,6 +9,7 @@ import {
   View,
   TextInput,
   ViewStyle,
+  TextInputProps,
 } from 'react-native';
   
 type secureTextEntryType = true | false;
@@ -34,6 +35,8 @@ interface PropTypes {
   customInputStyle?: ViewStyle;
   customContainerStyle?: ViewStyle;
   customLabelStyle?: ViewStyle;
+  textInputProps?: TextInputProps
+  disabled?: boolean
 }
   
 interface CommonAnimatedPropsTypes {
@@ -79,7 +82,9 @@ const OutlineInput = ({
   fontFamily = 'System',
   customInputStyle = {},
   customContainerStyle = {},
-  customLabelStyle = {}
+  customLabelStyle = {},
+  textInputProps = {},
+  disabled = false,
 }: PropTypes) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const lineHeightValue: number = fontSize + 2;
@@ -199,7 +204,7 @@ const OutlineInput = ({
 			}}>
         <Animated.Text {...animatedTextProps}>{label}</Animated.Text>
       </Animated.View>
-      <TextInput {...inputProps} />
+      <TextInput {...inputProps} {...textInputProps} editable={!disabled} />
     </View>
   );
 };
