@@ -8,6 +8,7 @@ import {
   StyleSheet,
   View,
   TextInput,
+  ViewStyle,
 } from 'react-native';
   
 type secureTextEntryType = true | false;
@@ -30,6 +31,9 @@ interface PropTypes {
   activeBorderColor?: string;
   passiveBorderColor?: string;
   fontFamily?: string;
+  customInputStyle?: ViewStyle;
+  customContainerStyle?: ViewStyle;
+  customLabelStyle?: ViewStyle;
 }
   
 interface CommonAnimatedPropsTypes {
@@ -73,6 +77,9 @@ const OutlineInput = ({
   activeBorderColor = '#51AD56',
   passiveBorderColor = '#EFEFEF',
   fontFamily = 'System',
+  customInputStyle = {},
+  customContainerStyle = {},
+  customLabelStyle = {}
 }: PropTypes) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const lineHeightValue: number = fontSize + 2;
@@ -167,6 +174,7 @@ const OutlineInput = ({
         passiveLabelColor,
       }),
       { fontSize: fontSizeRef, lineHeight: lineHeightRef, fontFamily },
+      customLabelStyle
     ],
   };
 
@@ -195,11 +203,12 @@ const OutlineInput = ({
         activeValueColor,
         passiveValueColor,
       }),
+      customInputStyle
     ],
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, customContainerStyle]}>
       <Animated.View {...animatedViewProps}>
         <Animated.Text {...animatedTextProps}>{label}</Animated.Text>
         </Animated.View>
