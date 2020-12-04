@@ -31,6 +31,7 @@ interface PropTypes {
   passiveLabelColor?: string;
   activeBorderColor?: string;
   passiveBorderColor?: string;
+  backgroundColor?: string;
   fontFamily?: string;
   customInputStyle?: ViewStyle;
   customContainerStyle?: ViewStyle;
@@ -79,6 +80,7 @@ const OutlineInput = ({
   passiveLabelColor = '#757575',
   activeBorderColor = '#51AD56',
   passiveBorderColor = '#EFEFEF',
+	backgroundColor = '#FFFFFF',
   fontFamily = 'System',
   customInputStyle = {},
   customContainerStyle = {},
@@ -197,7 +199,7 @@ const OutlineInput = ({
   };
 
   return (
-    <View style={[styles.container, customContainerStyle]}>
+    <View style={[styles.container, { backgroundColor }, customContainerStyle]}>
       <Animated.View style={{
 				position: 'absolute',
 				bottom: labelPositionRef,
@@ -208,7 +210,7 @@ const OutlineInput = ({
 				scaleY: scaleRef
 			}}>
         <Animated.Text {...animatedTextProps}>{label}</Animated.Text>
-        <View style={{ backgroundColor: "#fff", height: 2, top: scaledLineHeight/2 - 1, zIndex: 0 }} />
+        <View style={{ backgroundColor, height: 2, top: scaledLineHeight/2 - 1, zIndex: 0 }} />
       </Animated.View>
       <TextInput {...inputProps} {...textInputProps} editable={!disabled} />
     </View>
@@ -232,7 +234,7 @@ const LabelStyle = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    backgroundColor: '#ffffff',
+    borderRadius: 6,
   },
 });
 
