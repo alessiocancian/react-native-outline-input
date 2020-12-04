@@ -95,11 +95,8 @@ const OutlineInput = ({
       value ? labelPositionFillValue : labelPositionEmptyValue,
     ),
   ).current;
-  const fontSizeRef = useRef(
-    new Animated.Value(value ? fontSize - 2 : fontSize),
-  ).current;
-  const lineHeightRef = useRef(
-    new Animated.Value(value ? lineHeightValue - 2 : lineHeightValue),
+  const scaleRef = useRef(
+    new Animated.Value(value ? 0.8 : 1.0),
   ).current;
   const zIndexRef = useRef(new Animated.Value(value ? 2 : -1)).current;
 
@@ -115,16 +112,12 @@ const OutlineInput = ({
       Animated.parallel([
         Animated.timing(labelPositionRef, {
           toValue: labelPositionEmptyValue,
-          ...commonAnimatedProps,
+					...commonAnimatedProps,
         }),
-        Animated.timing(fontSizeRef, {
-          toValue: fontSize,
-          ...commonAnimatedProps,
-        }),
-        Animated.timing(lineHeightRef, {
-          toValue: lineHeightValue,
-          ...commonAnimatedProps,
-        }),
+				Animated.timing(scaleRef, {
+					toValue: 1.0,
+					...commonAnimatedProps,
+				}),
         Animated.timing(zIndexRef, {
           toValue: -1,
           ...commonAnimatedProps,
@@ -138,32 +131,18 @@ const OutlineInput = ({
     Animated.parallel([
       Animated.timing(labelPositionRef, {
         toValue: labelPositionFillValue,
-        ...commonAnimatedProps,
-      }),
-      Animated.timing(fontSizeRef, {
-        toValue: fontSize - 2,
-        ...commonAnimatedProps,
-      }),
-      Animated.timing(lineHeightRef, {
-        toValue: lineHeightValue - 2,
-        ...commonAnimatedProps,
-      }),
+				...commonAnimatedProps,
+			}),
+			Animated.timing(scaleRef, {
+				toValue: 0.8,
+				...commonAnimatedProps,
+			}),
       Animated.timing(zIndexRef, {
         toValue: 2,
         ...commonAnimatedProps,
       }),
     ]).start();
   }, [!!value]);
-
-  const animatedViewProps = {
-    style: {
-      position: 'absolute',
-      bottom: labelPositionRef,
-      left: 10,
-      zIndex: zIndexRef,
-      height,
-    },
-  };
 
   const animatedTextProps = {
     style: [
@@ -173,7 +152,7 @@ const OutlineInput = ({
         activeLabelColor,
         passiveLabelColor,
       }),
-      { fontSize: fontSizeRef, lineHeight: lineHeightRef, fontFamily },
+      { fontSize, fontFamily },
       customLabelStyle
     ],
   };
@@ -209,9 +188,17 @@ const OutlineInput = ({
 
   return (
     <View style={[styles.container, customContainerStyle]}>
-      <Animated.View {...animatedViewProps}>
+      <Animated.View style={{
+				position: 'absolute',
+				bottom: labelPositionRef,
+				left: 10,
+				zIndex: zIndexRef,
+				height,
+				scaleX: scaleRef,
+				scaleY: scaleRef
+			}}>
         <Animated.Text {...animatedTextProps}>{label}</Animated.Text>
-        </Animated.View>
+      </Animated.View>
       <TextInput {...inputProps} />
     </View>
   );
@@ -235,7 +222,6 @@ const LabelStyle = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    marginRight: 5,
     backgroundColor: '#ffffff',
   },
 });
