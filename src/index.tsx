@@ -180,7 +180,7 @@ const OutlineInput = ({
     onBlur,
     autoCapitalize,
     isFocused,
-    height: inputHeight,
+    //height: inputHeight,
     padding,
     fontSize: inputValueFontSize,
     activeBorderColor,
@@ -205,7 +205,8 @@ const OutlineInput = ({
 			borderColor: isFocused ? activeBorderColor : passiveBorderColor,
 			borderRadius: 6,
 			flexDirection: "row",
-			alignItems: "center"
+			alignItems: "center",
+			height: inputHeight
 		},
 		customInputStyle
 	]
@@ -225,7 +226,7 @@ const OutlineInput = ({
 			}}>
 				<View style={{ top: initialTopValue, position: "relative" }}>
         	<Animated.Text {...animatedTextProps}>{label}</Animated.Text>
-        	<View style={{ position: "absolute", width: "100%", backgroundColor, height: 3, top: lineHeightValue/2-3, zIndex: 0 }} />
+        	<View style={{ position: "absolute", width: "100%", backgroundColor, height: 3, top: lineHeightValue/2-1, zIndex: 0 }} />
 				</View>
       </Animated.View>
 			<TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => {
