@@ -81,7 +81,7 @@ const OutlineInput = ({
   passiveLabelColor = '#757575',
   activeBorderColor = '#51AD56',
   passiveBorderColor = '#EFEFEF',
-	backgroundColor = '#FFFFFF',
+	backgroundColor,
   fontFamily = 'System',
   customInputStyle = {},
   customContainerStyle = {},
@@ -186,7 +186,7 @@ const OutlineInput = ({
     activeBorderColor,
     passiveBorderColor,
     style: [
-      { fontFamily, },
+      { fontFamily, paddingLeft: 12 },
       InputStyle({
         padding,
         height,
@@ -213,8 +213,9 @@ const OutlineInput = ({
 
 	const inputRef = useRef<TextInput>()
 
+	const bgColor = backgroundColor || (disabled ? "#e2e2e2" : "#fff")
   return (
-    <View style={[styles.container, { backgroundColor }, customContainerStyle]}>
+    <View style={[styles.container, { backgroundColor: bgColor }, customContainerStyle]}>
       <Animated.View style={{
 				position: 'absolute',
 				bottom: labelPositionRef,
@@ -226,7 +227,7 @@ const OutlineInput = ({
 			}}>
 				<View style={{ top: initialTopValue, position: "relative" }}>
         	<Animated.Text {...animatedTextProps}>{label}</Animated.Text>
-        	<View style={{ position: "absolute", width: "100%", backgroundColor, height: 3, top: lineHeightValue/2-1, zIndex: 0 }} />
+        	<View style={{ position: "absolute", width: "100%", backgroundColor: bgColor, height: 3, top: lineHeightValue/2-1, zIndex: 0 }} />
 				</View>
       </Animated.View>
 			<TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => {
