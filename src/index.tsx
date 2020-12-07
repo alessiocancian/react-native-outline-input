@@ -228,11 +228,15 @@ const OutlineInput = ({
         	<View style={{ position: "absolute", width: "100%", backgroundColor, height: 3, top: lineHeightValue/2-3, zIndex: 0 }} />
 				</View>
       </Animated.View>
-			<TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => inputRef.current?.focus()}>
+			<TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => {
+				if(!disabled) {
+					inputRef.current?.focus()
+				}
+			}}>
 				<View style={inputContainerStyle}>
 					<TextInput {...inputProps} {...textInputProps} editable={!disabled} ref={inputRef} />
 					{(!!textAfterInput && (!!value || isFocused)) && (
-						<Text style={{ flex: 0 }}>{textAfterInput}</Text>
+						<Text style={{ flex: 0, color: isFocused ? activeValueColor : passiveValueColor }}>{textAfterInput}</Text>
 					)}
 				</View>
 			</TouchableWithoutFeedback>
