@@ -6,10 +6,12 @@ import {
   Easing,
   EasingFunction,
   StyleSheet,
-  View,
+	View,
+	Text,
   TextInput,
   ViewStyle,
   TextInputProps,
+	TouchableWithoutFeedback,
 } from 'react-native';
   
 type secureTextEntryType = true | false;
@@ -37,7 +39,8 @@ interface PropTypes {
   customContainerStyle?: ViewStyle;
   customLabelStyle?: ViewStyle;
   textInputProps?: TextInputProps
-  disabled?: boolean
+	disabled?: boolean
+	textAfterInput?: string
 }
   
 interface CommonAnimatedPropsTypes {
@@ -58,8 +61,6 @@ interface InputStyleProps {
   height: number;
   fontSize: number;
   isFocused: boolean;
-  activeBorderColor: string;
-  passiveBorderColor: string;
   activeValueColor:string;
   passiveValueColor:string;
 }
@@ -86,7 +87,8 @@ const OutlineInput = ({
   customContainerStyle = {},
   customLabelStyle = {},
   textInputProps = {},
-  disabled = false,
+	disabled = false,
+	textAfterInput
 }: PropTypes) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const lineHeightValue: number = fontSize + 5;
@@ -164,6 +166,7 @@ const OutlineInput = ({
         fontSize,
         fontFamily, 
 				zIndex: 10,
+				alignItems: "center"
       },
       customLabelStyle
     ],
@@ -183,20 +186,31 @@ const OutlineInput = ({
     activeBorderColor,
     passiveBorderColor,
     style: [
-      { fontFamily },
+      { fontFamily, },
       InputStyle({
         padding,
         height,
         fontSize,
         isFocused,
-        activeBorderColor,
-        passiveBorderColor,
         activeValueColor,
         passiveValueColor,
       }),
       customInputStyle
     ],
-  };
+	};
+	
+	const inputContainerStyle = [
+		{
+			borderWidth: 1,
+			borderColor: isFocused ? activeBorderColor : passiveBorderColor,
+			borderRadius: 6,
+			flexDirection: "row",
+			alignItems: "center"
+		},
+		customInputStyle
+	]
+
+	const inputRef = useRef<TextInput>()
 
   return (
     <View style={[styles.container, { backgroundColor }, customContainerStyle]}>
@@ -211,10 +225,18 @@ const OutlineInput = ({
 			}}>
 				<View style={{ top: initialTopValue, position: "relative" }}>
         	<Animated.Text {...animatedTextProps}>{label}</Animated.Text>
-        	<View style={{ position: "absolute", width: "100%", backgroundColor, height: 3, top: lineHeightValue/2-1, zIndex: 0 }} />
+        	<View style={{ position: "absolute", width: "100%", backgroundColor, height: 3, top: lineHeightValue/2-3, zIndex: 0 }} />
 				</View>
       </Animated.View>
-      <TextInput {...inputProps} {...textInputProps} editable={!disabled} />
+			<TouchableWithoutFeedback style={{ flex: 1, backgroundColor: "#f00" }} onPress={() => inputRef.current?.focus()}>
+				<View style={inputContainerStyle}>
+					<TextInput {...inputProps} {...textInputProps} editable={!disabled} ref={inputRef} />
+					{!!textAfterInput && (
+						<Text style={{ flex: 0, backgroundColor: "#00f4" }}>{textAfterInput}</Text>
+					)}
+				</View>
+			</TouchableWithoutFeedback>
+			{/* <TextInput {...inputProps} {...textInputProps} editable={!disabled} /> */}
     </View>
   );
 };
@@ -244,17 +266,12 @@ const InputStyle = ({
   height,
   fontSize,
   isFocused,
-  activeBorderColor,
-  passiveBorderColor,
   activeValueColor,
   passiveValueColor,
 }: InputStyleProps) => ({
   padding,
   height,
   fontSize,
-  borderWidth: 1,
-  borderColor: isFocused ? activeBorderColor : passiveBorderColor,
-  borderRadius: 6,
   color: isFocused ? activeValueColor : passiveValueColor,
 });
 
