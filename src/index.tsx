@@ -206,7 +206,7 @@ const OutlineInput = ({
 			borderRadius: 6,
 			flexDirection: "row",
 			alignItems: "center",
-			height: inputHeight
+			height: inputHeight,
 		},
 		customInputStyle
 	]
@@ -220,10 +220,11 @@ const OutlineInput = ({
 				position: 'absolute',
 				bottom: labelPositionRef,
 				left: 10,
+				transform: [{
+					scale: scaleRef
+				}],
 				zIndex: zIndexRef,
 				height,
-				scaleX: scaleRef,
-				scaleY: scaleRef,
 			}}>
 				<View style={{ top: initialTopValue, position: "relative" }}>
         	<Animated.Text {...animatedTextProps}>{label}</Animated.Text>
@@ -249,7 +250,6 @@ const OutlineInput = ({
 
 const LabelStyle = ({
   isFocused,
-  initialTopValue,
   activeLabelColor,
   passiveLabelColor,
 }: LabelStylePropTypes) => ({
@@ -269,14 +269,12 @@ const styles = StyleSheet.create({
 
 const InputStyle = ({
   padding,
-  height,
   fontSize,
   isFocused,
   activeValueColor,
   passiveValueColor,
 }: InputStyleProps) => ({
   padding,
-  height,
   fontSize,
   color: isFocused ? activeValueColor : passiveValueColor,
 });
