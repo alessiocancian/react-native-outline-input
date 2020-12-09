@@ -33,7 +33,8 @@ interface PropTypes {
   passiveLabelColor?: string;
   activeBorderColor?: string;
   passiveBorderColor?: string;
-  backgroundColor?: string;
+	backgroundColor?: string;
+	disabledBackgroundColor?: string,
   fontFamily?: string;
   customInputStyle?: ViewStyle;
   customContainerStyle?: ViewStyle;
@@ -81,7 +82,8 @@ const OutlineInput = ({
   passiveLabelColor = '#757575',
   activeBorderColor = '#51AD56',
   passiveBorderColor = '#EFEFEF',
-	backgroundColor,
+	backgroundColor = "#ffffff",
+	disabledBackgroundColor = "#e2e2e2",
   fontFamily = 'System',
   customInputStyle = {},
   customContainerStyle = {},
@@ -213,7 +215,7 @@ const OutlineInput = ({
 
 	const inputRef = useRef<TextInput>()
 
-	const bgColor = backgroundColor || (disabled ? "#e2e2e2" : "#fff")
+	const bgColor = (disabled ? disabledBackgroundColor : backgroundColor)
   return (
     <View style={[styles.container, { backgroundColor: bgColor }, customContainerStyle]}>
       <Animated.View style={{
