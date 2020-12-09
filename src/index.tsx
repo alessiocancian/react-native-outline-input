@@ -220,7 +220,7 @@ const OutlineInput = ({
 	const bgColor = (disabled ? disabledBackgroundColor : backgroundColor)
 
 	useEffect(() => {
-		if(value && !isFocused) {
+		if(customAction && value && !isFocused) {
 			onFocus()
 		}
 	}, [value])
