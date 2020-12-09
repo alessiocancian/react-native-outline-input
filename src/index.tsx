@@ -1,5 +1,5 @@
 import React, {
-  memo, useRef, useState, useCallback,
+  memo, useRef, useState, useCallback, useEffect,
 } from 'react';
 import {
   Animated,
@@ -218,6 +218,13 @@ const OutlineInput = ({
 	const inputRef = useRef<TextInput>()
 
 	const bgColor = (disabled ? disabledBackgroundColor : backgroundColor)
+
+	useEffect(() => {
+		if(value && !isFocused) {
+			onFocus()
+		}
+	}, [value])
+
   return (
     <View style={[styles.container, { backgroundColor: bgColor }, customContainerStyle]}>
       <Animated.View style={{
