@@ -42,6 +42,7 @@ interface PropTypes {
   textInputProps?: TextInputProps
 	disabled?: boolean
 	textAfterInput?: string
+	customAction?: () => void
 }
   
 interface CommonAnimatedPropsTypes {
@@ -90,7 +91,8 @@ const OutlineInput = ({
   customLabelStyle = {},
   textInputProps = {},
 	disabled = false,
-	textAfterInput
+	textAfterInput,
+	customAction,
 }: PropTypes) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const lineHeightValue: number = fontSize + 5;
@@ -234,12 +236,14 @@ const OutlineInput = ({
 				</View>
       </Animated.View>
 			<TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => {
-				if(!disabled) {
+				if(customAction) {
+					customAction()
+				} else if(!disabled) {
 					inputRef.current?.focus()
 				}
 			}}>
 				<View style={inputContainerStyle}>
-					<TextInput {...inputProps} {...textInputProps} editable={!disabled} ref={inputRef} />
+					<TextInput {...inputProps} {...textInputProps} editable={!disabled && !customAction} ref={inputRef} />
 					{(!!textAfterInput && (!!value || isFocused)) && (
 						<Text style={{ flex: 0, color: isFocused ? activeValueColor : passiveValueColor }}>{textAfterInput}</Text>
 					)}
