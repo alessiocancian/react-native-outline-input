@@ -43,6 +43,7 @@ interface PropTypes {
 	disabled?: boolean
 	textAfterInput?: string
 	customAction?: () => void
+	hideLabel?: boolean
 }
   
 interface CommonAnimatedPropsTypes {
@@ -93,6 +94,7 @@ const OutlineInput = ({
 	disabled = false,
 	textAfterInput,
 	customAction,
+	hideLabel = false,
 }: PropTypes) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const lineHeightValue: number = fontSize + 5;
@@ -225,6 +227,7 @@ const OutlineInput = ({
 		}
 	}, [value])
 
+	const shouldHideLabel = hideLabel && (isFocused || !!value)
   return (
     <View style={[styles.container, { backgroundColor: bgColor }, customContainerStyle]}>
       <Animated.View style={{
@@ -238,8 +241,8 @@ const OutlineInput = ({
 				height,
 			}}>
 				<View style={{ top: initialTopValue, position: "relative" }}>
-        	<Animated.Text {...animatedTextProps}>{label}</Animated.Text>
-        	<View style={{ position: "absolute", width: "100%", backgroundColor: bgColor, height: 3, top: lineHeightValue/2-1, zIndex: 0 }} />
+        	<Animated.Text {...animatedTextProps}>{shouldHideLabel ? "" :label}</Animated.Text>
+        	<View style={{ position: "absolute", width: "100%", backgroundColor: bgColor, height: shouldHideLabel ? 0 : 3, top: lineHeightValue/2-1, zIndex: 0 }} />
 				</View>
       </Animated.View>
 			<TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => {
