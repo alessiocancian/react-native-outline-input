@@ -192,7 +192,7 @@ const OutlineInput = ({
     activeBorderColor,
     passiveBorderColor,
     style: [
-      { fontFamily, paddingLeft: 12 },
+      { fontFamily, paddingLeft: 12, minWidth: 25 },
       InputStyle({
         padding,
         height,

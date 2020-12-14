@@ -1,9 +1,9 @@
 {
-  "name": "react-native-outline-input",
-  "version": "2.0.0",
+  "name": "rn-outline-input",
+  "version": "1.2.2",
   "description": "",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "src/index.tsx",
+  "types": "src/index.tsx",
   "scripts": {
     "p-patch": "npm version patch && npm publish",
     "p-major": "npm version major && npm publish",
